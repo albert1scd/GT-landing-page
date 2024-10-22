@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends  # Added Depends here
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import List
@@ -52,7 +52,7 @@ class Subscriber(SubscriberBase):
 
 # Newsletter subscription endpoint
 @app.post("/api/subscribe", response_model=dict)
-def subscribe_newsletter(subscriber: SubscriberCreate, db: Session = Depends(get_db)):
+def subscribe_newsletter(subscriber: SubscriberCreate, db: Session = Depends(get_db)):  # Depends is used here
     db_subscriber = models.Subscriber(email=subscriber.email)
     try:
         db.add(db_subscriber)
@@ -65,6 +65,6 @@ def subscribe_newsletter(subscriber: SubscriberCreate, db: Session = Depends(get
 
 # Get all subscribers (admin endpoint)
 @app.get("/api/subscribers", response_model=List[Subscriber])
-def get_subscribers(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def get_subscribers(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):  # Depends is used here
     subscribers = db.query(models.Subscriber).offset(skip).limit(limit).all()
     return subscribers
