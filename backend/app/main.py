@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import List
@@ -7,7 +7,11 @@ from . import models, database
 from .database import get_db
 from pydantic import BaseModel, EmailStr
 
-app = FastAPI()
+app = FastAPI(
+    title="Giovani per il Trentino API",
+    description="Backend API for Giovani per il Trentino website",
+    version="1.0.0"
+)
 
 # Configure CORS
 app.add_middleware(
@@ -18,7 +22,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Pydantic models
+# Root endpoint
+@app.get("/")
+async def root():
+    return {
+        "message": "Welcome to Giovani per il Trentino API",
+        "documentation": "/docs",
+        "status": "active"
+    }
+
+# Health check endpoint
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
+# Newsletter subscription model
 class SubscriberBase(BaseModel):
     email: EmailStr
 
@@ -32,6 +50,7 @@ class Subscriber(SubscriberBase):
     class Config:
         from_attributes = True
 
+# Newsletter subscription endpoint
 @app.post("/api/subscribe", response_model=dict)
 def subscribe_newsletter(subscriber: SubscriberCreate, db: Session = Depends(get_db)):
     db_subscriber = models.Subscriber(email=subscriber.email)
@@ -44,6 +63,7 @@ def subscribe_newsletter(subscriber: SubscriberCreate, db: Session = Depends(get
         db.rollback()
         raise HTTPException(status_code=400, detail="Email already subscribed")
 
+# Get all subscribers (admin endpoint)
 @app.get("/api/subscribers", response_model=List[Subscriber])
 def get_subscribers(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     subscribers = db.query(models.Subscriber).offset(skip).limit(limit).all()
