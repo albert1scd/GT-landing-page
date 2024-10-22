@@ -1,32 +1,23 @@
-import * as React from "react"
-import { cva } from "class-variance-authority"
-import { cn } from "@/lib/utils"
+echo 'import * as React from "react"
+import { cn } from "../../lib/utils"
 
-const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
-  {
-    variants: {
-      variant: {
-        default: "bg-background text-foreground",
-        destructive:
-          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-)
+const alertVariants = {
+  default: "bg-white text-gray-900",
+  destructive: "bg-red-500 text-white"
+}
 
-const Alert = React.forwardRef(({ className, variant, ...props }, ref) => (
+const Alert = React.forwardRef(({ className, variant = "default", ...props }, ref) => (
   <div
     ref={ref}
     role="alert"
-    className={cn(alertVariants({ variant }), className)}
+    className={cn(
+      "rounded-lg border p-4",
+      alertVariants[variant],
+      className
+    )}
     {...props}
   />
 ))
-Alert.displayName = "Alert"
 
 const AlertTitle = React.forwardRef(({ className, ...props }, ref) => (
   <h5
@@ -35,7 +26,6 @@ const AlertTitle = React.forwardRef(({ className, ...props }, ref) => (
     {...props}
   />
 ))
-AlertTitle.displayName = "AlertTitle"
 
 const AlertDescription = React.forwardRef(({ className, ...props }, ref) => (
   <div
@@ -44,6 +34,9 @@ const AlertDescription = React.forwardRef(({ className, ...props }, ref) => (
     {...props}
   />
 ))
+
+Alert.displayName = "Alert"
+AlertTitle.displayName = "AlertTitle"
 AlertDescription.displayName = "AlertDescription"
 
-export { Alert, AlertTitle, AlertDescription }
+export { Alert, AlertTitle, AlertDescription }' > src/components/ui/alert.jsx
