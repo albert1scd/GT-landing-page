@@ -1,6 +1,10 @@
 # Giovani per il Trentino 🏔️
 
+<<<<<<< HEAD
 A web platform connecting young political activists and citizens in the Trentino region of Italy. Our mission is to foster political engagement, regional development, and youth participation in local governance.
+=======
+A web platform connecting young political activists and citizens in the Trentino region of Italy. We aim to foster political engagement, regional development, and youth participation in local governance.
+>>>>>>> 3f91b29e88f3110c9e15b0e3cc9de4a0df41d1d0
 
 ## 🎯 Project Overview
 
