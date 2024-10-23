@@ -1,4 +1,4 @@
-echo 'import * as React from "react"
+import * as React from "react"
 import { cn } from "../../lib/utils"
 
 const alertVariants = {
@@ -39,4 +39,4 @@ Alert.displayName = "Alert"
 AlertTitle.displayName = "AlertTitle"
 AlertDescription.displayName = "AlertDescription"
 
-export { Alert, AlertTitle, AlertDescription }' > src/components/ui/alert.jsx
+export { Alert, AlertTitle, AlertDescription }

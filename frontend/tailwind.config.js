@@ -1,4 +1,5 @@
-echo 'export default {
+/** @type {import('tailwindcss').Config} */
+export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,4 +8,4 @@ echo 'export default {
     extend: {},
   },
   plugins: [],
-}' > tailwind.config.js
+}
