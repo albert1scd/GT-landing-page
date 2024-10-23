@@ -22,7 +22,7 @@ const Logo = ({ size = 'normal', darkMode }) => {
 
   return (
     <div className="relative flex items-center">
-      <span className={`${fontSize} font-bold tracking-tighter ${darkMode ? 'text-green-400' : 'text-green-500'}`}>GT</span>
+      <span className={`${fontSize} font-bold tracking-tighter ${darkMode ? 'text-green-400' : 'text-green-600'}`}>GT</span>
       <div className={`${triangleMargin} ${triangleHeight} flex items-center`}>
         <svg 
           viewBox="0 0 40 30" 
@@ -43,19 +43,20 @@ const Logo = ({ size = 'normal', darkMode }) => {
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [currentPage, setCurrentPage] = useState('home');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState({ type: '', message: '' });
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setDarkMode(true);
+    // Add or remove dark class on body
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
-  }, []);
+  }, [darkMode]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Mock subscription without backend
     setStatus({
       type: 'success',
       message: 'Subscription feature will be available soon!'
@@ -64,7 +65,7 @@ const App = () => {
   };
 
   const Header = () => (
-    <header className={`fixed top-0 left-0 right-0 z-40 ${darkMode ? 'bg-gray-900/95' : 'bg-white/95'} backdrop-blur-sm`}>
+    <header className={`fixed top-0 left-0 right-0 z-40 ${darkMode ? 'bg-gray-900/95' : 'bg-white/95'} backdrop-blur-sm transition-colors duration-200`}>
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <button 
@@ -74,16 +75,16 @@ const App = () => {
             <Logo size="small" darkMode={darkMode} />
           </button>
 
-          <nav className="hidden md:flex space-x-8">
+          <nav className="flex space-x-8">
             {['home', 'manifest', 'about', 'contact'].map((page) => (
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
                 className={`${
                   currentPage === page 
-                    ? darkMode ? 'text-green-400' : 'text-green-500'
+                    ? darkMode ? 'text-green-400' : 'text-green-600'
                     : darkMode ? 'text-gray-300' : 'text-gray-600'
-                } hover:text-green-500 capitalize transition-colors`}
+                } hover:text-green-500 capitalize transition-colors duration-200`}
               >
                 {page}
               </button>
@@ -92,7 +93,11 @@ const App = () => {
 
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className={`p-2 rounded-full ${darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-gray-200 text-gray-800'}`}
+            className={`p-2 rounded-full ${
+              darkMode 
+                ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700' 
+                : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+            } transition-colors duration-200`}
           >
             {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
@@ -101,18 +106,19 @@ const App = () => {
     </header>
   );
 
+  // Home Page with appropriate light/dark styles
   const HomePage = () => (
-    <div className="relative min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
+    <div className={`relative min-h-screen ${darkMode ? 'bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-b from-white via-gray-100 to-white'}`}>
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
         <div className="mb-12 transform hover:scale-105 transition-transform duration-300">
-          <Logo size="normal" darkMode={true} />
+          <Logo size="normal" darkMode={darkMode} />
         </div>
 
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+          <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Giovani per il Trentino
           </h1>
-          <p className="text-lg md:text-xl mb-8 text-gray-200">
+          <p className={`text-lg md:text-xl mb-8 ${darkMode ? 'text-gray-200' : 'text-gray-600'}`}>
             Unisciti alla nostra comunità per il futuro del Trentino
           </p>
 
@@ -124,8 +130,11 @@ const App = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Inserisci la tua email"
                 required
-                className="flex-1 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 
-                  bg-white/10 border border-white/20 text-white placeholder-gray-300 backdrop-blur-sm"
+                className={`flex-1 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 
+                  ${darkMode 
+                    ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' 
+                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                  } transition-colors duration-200`}
               />
               <button
                 type="submit"
@@ -141,30 +150,28 @@ const App = () => {
     </div>
   );
 
+  // Other pages with proper light/dark styles
   const ManifestPage = () => (
-    <div className="min-h-screen pt-24 px-4">
+    <div className={`min-h-screen pt-24 px-4 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       <h1 className={`text-3xl md:text-4xl font-bold text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
         Il Nostro Manifesto
       </h1>
-      {/* Add content later */}
     </div>
   );
 
   const AboutPage = () => (
-    <div className="min-h-screen pt-24 px-4">
+    <div className={`min-h-screen pt-24 px-4 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       <h1 className={`text-3xl md:text-4xl font-bold text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
         Chi Siamo
       </h1>
-      {/* Add content later */}
     </div>
   );
 
   const ContactPage = () => (
-    <div className="min-h-screen pt-24 px-4">
+    <div className={`min-h-screen pt-24 px-4 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       <h1 className={`text-3xl md:text-4xl font-bold text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
         Contattaci
       </h1>
-      {/* Add content later */}
     </div>
   );
 
@@ -175,6 +182,7 @@ const App = () => {
       {currentPage === 'manifest' && <ManifestPage />}
       {currentPage === 'about' && <AboutPage />}
       {currentPage === 'contact' && <ContactPage />}
+      
       {status.message && (
         <div className="fixed bottom-4 right-4 left-4 md:left-auto z-50">
           <Alert variant={status.type === 'success' ? 'default' : 'destructive'}>
