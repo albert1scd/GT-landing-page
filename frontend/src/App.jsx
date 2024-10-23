@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AlertCircle, Send, Moon, Sun } from 'lucide-react';
+import { AlertCircle, Send, Moon, Sun, Mail, MapPin, Phone } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
 
 const Logo = ({ size = 'normal', darkMode }) => {
@@ -168,12 +168,81 @@ const App = () => {
   );
 
   const ContactPage = () => (
-    <div className={`min-h-screen pt-24 px-4 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
-      <h1 className={`text-3xl md:text-4xl font-bold text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-        Contattaci
-      </h1>
+    <div className="min-h-screen pt-24">
+      <div className="max-w-6xl mx-auto px-4">
+        <h1 className={`text-4xl font-bold mb-12 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          Contattaci
+        </h1>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className={`p-6 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+            <form className="space-y-6">
+              <div>
+                <label className={`block mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Name</label>
+                <input
+                  type="text"
+                  className={`w-full px-4 py-2 rounded-lg ${
+                    darkMode ? 'bg-gray-700 text-white' : 'bg-gray-50'
+                  } border ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}
+                />
+              </div>
+              <div>
+                <label className={`block mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Email</label>
+                <input
+                  type="email"
+                  className={`w-full px-4 py-2 rounded-lg ${
+                    darkMode ? 'bg-gray-700 text-white' : 'bg-gray-50'
+                  } border ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}
+                />
+              </div>
+              <div>
+                <label className={`block mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Message</label>
+                <textarea
+                  rows="4"
+                  className={`w-full px-4 py-2 rounded-lg ${
+                    darkMode ? 'bg-gray-700 text-white' : 'bg-gray-50'
+                  } border ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}
+                />
+              </div>
+              <button
+                type="submit"
+                className={`w-full py-2 rounded-lg ${
+                  darkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-500 hover:bg-green-600'
+                } text-white transition-colors`}
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+  
+          <div className="space-y-8">
+            <div className="flex items-center space-x-4">
+              <Mail className={darkMode ? 'text-green-400' : 'text-green-500'} />
+              <div>
+                <h3 className={`font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Email</h3>
+                <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>info@gtmountains.com</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Phone className={darkMode ? 'text-green-400' : 'text-green-500'} />
+              <div>
+                <h3 className={`font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Phone</h3>
+                <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>+1 (555) 123-4567</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <MapPin className={darkMode ? 'text-green-400' : 'text-green-500'} />
+              <div>
+                <h3 className={`font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Address</h3>
+                <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>123 Mountain View, CO</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
+
 
   return (
     <div className={`min-h-screen transition-colors duration-200 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
